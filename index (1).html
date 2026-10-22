@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a1110">
+  <meta name="description" content="Portal do Setor de Formação Militar do Exército de Chico no OneState RP.">
+  <title>Início | Portal S.F.M. — EB Chico</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080d0e; --sidebar: #0c1414; --panel: #101b1a; --panel2: #162420;
+      --line: #445149; --gold: #e9bc60; --gold2: #9f7b36; --ink: #f4f2e9;
+      --muted: #b2bdb6; --green: #38553e; --green-bright: #9cc4a2;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: radial-gradient(ellipse at 80% 0, #24382b, var(--bg) 53%);
+      color: var(--ink); font: 15px/1.6 Arial, Helvetica, sans-serif; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid #ffe1a0; outline-offset: 3px; }
+    .shell { max-width: 1550px; min-height: 100vh; margin: auto; border-left: 1px solid #3b452f; border-right: 1px solid #3b452f; }
+    .header { min-height: 92px; padding: 16px 30px; border-bottom: 1px solid var(--gold2);
+      background: linear-gradient(115deg, #090f0f, #14211c 60%, #0b1010);
+      display: flex; align-items: center; gap: 17px; }
+    .emblem { width: 62px; height: 66px; display: grid; place-items: center; flex: none;
+      color: var(--gold); font-size: 29px; border: 2px solid var(--gold);
+      clip-path: polygon(50% 0%, 94% 18%, 94% 72%, 50% 100%, 6% 72%, 6% 18%);
+      background: linear-gradient(160deg, #2a3425, #0c1312); }
+    .brand small { color: var(--gold); font-size: 10px; letter-spacing: 2.5px; font-weight: 800; }
+    .brand strong { display: block; font-size: clamp(17px, 2.5vw, 25px); line-height: 1.15; letter-spacing: .5px; }
+    .brand span { display: block; font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+    .edition { margin-left: auto; border: 1px solid #87703f; border-radius: 22px;
+      padding: 8px 13px; font-size: 11px; color: var(--gold); font-weight: bold; white-space: nowrap; }
+    .toggle { display: none; margin-left: auto; border: 1px solid #887240; background: #16211f;
+      color: var(--gold); border-radius: 7px; padding: 8px 12px; font-size: 20px; cursor: pointer; }
+    .layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); align-items: stretch; }
+    .sidebar { padding: 22px 12px; background: linear-gradient(#0e1716, #080e0e);
+      border-right: 1px solid #4a4f39; min-height: calc(100vh - 92px); }
+    .nav-caption { font-size: 10px; letter-spacing: 1.8px; color: var(--gold); font-weight: bold; margin: 3px 11px 12px; }
+    .nav-link, .nav-sub { display: block; padding: 10px 11px; text-decoration: none; border-radius: 6px;
+      border-left: 3px solid transparent; font-weight: 600; font-size: 13px; color: #e1e7e0; }
+    .nav-link:hover, .nav-sub:hover, .nav-link.active, .nav-sub.active { background: #29372b; color: var(--gold); border-left-color: var(--gold); }
+    .nav-group { border-top: 1px solid #29372f; margin-top: 8px; padding-top: 8px; }
+    .nav-group summary { cursor: pointer; padding: 10px 11px; color: #e5e8df; font-size: 12.5px;
+      font-weight: 700; border-radius: 6px; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .nav-group summary::-webkit-details-marker { display: none; }
+    .nav-group summary::after { content: '▾'; color: var(--gold); }
+    .nav-group[open] summary::after { content: '▴'; }
+    .nav-group summary:hover { background: #182721; }
+    .nav-group-items { border-left: 1px solid #4d583f; margin: 0 0 0 14px; padding-left: 7px; }
+    .nav-sub { font-size: 12px; padding: 8px 10px; font-weight: normal; }
+    .side-note { margin: 25px 11px; padding-top: 17px; border-top: 1px solid #344035;
+      color: #9ca89f; font-size: 11px; }
+    .main { min-width: 0; }
+    .hero { position: relative; overflow: hidden; min-height: 360px; display: flex; align-items: center;
+      background: radial-gradient(circle at 84% 44%, #44603a75, transparent 29%),
+      linear-gradient(115deg, #0e1917 12%, #1c3024 66%, #09100f); border-bottom: 1px solid var(--gold2);
+      padding: 45px clamp(22px, 5vw, 60px); }
+    .hero::after { content: '★'; font-size: 260px; line-height: 1; color: #e6bd6511;
+      position: absolute; right: 5%; top: 12%; pointer-events: none; }
+    .hero-content { position: relative; z-index: 1; max-width: 610px; }
+    .eyebrow { color: var(--gold); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 800; }
+    h1 { margin: 12px 0; font-size: clamp(32px, 4.4vw, 59px); line-height: 1.09; letter-spacing: -.4px; }
+    h1 em { color: var(--gold); font-style: normal; }
+    .hero p { max-width: 530px; color: #d2dfd5; margin-bottom: 22px; }
+    .btn { display: inline-block; border-radius: 6px; background: var(--gold);
+      color: #141710; padding: 11px 17px; text-decoration: none; font-weight: 800; font-size: 12px; }
+    .btn:hover { background: #ffdc95; }
+    .btn.secondary { color: #f2d495; background: #101a18; border: 1px solid var(--gold2); }
+    .btn.secondary:hover { background: #2b3020; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .content { padding: 28px clamp(16px, 3vw, 36px) 40px; }
+    .page-title { padding: 32px clamp(20px, 3.4vw, 40px); border-bottom: 1px solid var(--gold2);
+      background: linear-gradient(120deg, #1d3227, #101c1b 75%); }
+    .page-title h1 { font-size: clamp(28px, 3.5vw, 42px); margin-bottom: 7px; }
+    .page-title p { margin: 0; color: var(--muted); max-width: 790px; }
+    .section-head { display: flex; justify-content: space-between; gap: 14px; align-items: center; flex-wrap: wrap; margin: 5px 0 15px; }
+    .section-head h2 { margin: 0; font-size: 19px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card { min-width: 0; background: linear-gradient(150deg, #172523, #0d1617); border: 1px solid #506047;
+      border-radius: 11px; padding: 20px; }
+    .card h3 { margin: 0 0 8px; font-size: 16px; color: #f3dfb7; }
+    .card p { margin: 0 0 13px; color: var(--muted); font-size: 13px; }
+    .card .number { color: var(--gold); font-weight: 800; font-size: 11px; letter-spacing: 1.4px; }
+    .card a { color: var(--gold); font-weight: bold; font-size: 12px; text-decoration: none; }
+    .card a:hover { text-decoration: underline; }
+    .panel { border: 1px solid #655a39; background: #111b1a; border-radius: 11px; padding: 21px;
+      margin-top: 19px; }
+    .panel h2, .panel h3 { margin-top: 0; color: #f1d698; }
+    .panel p, .panel li { color: #c0cdc4; }
+    .notice { border-left: 3px solid var(--gold); background: #252719; border-radius: 0 7px 7px 0;
+      padding: 14px 16px; color: #ecdfba; margin: 17px 0; }
+    .steps { display: grid; gap: 10px; margin-top: 15px; }
+    .step { display: flex; gap: 12px; align-items: flex-start; background: #14221e;
+      border: 1px solid #435a46; border-radius: 8px; padding: 12px 15px; }
+    .step b { display: grid; place-items: center; flex: none; width: 30px; height: 30px;
+      border-radius: 50%; background: #544426; color: #f2d08a; }
+    .step span { color: #dbe3dc; }
+    .table-wrap { overflow-x: auto; margin-top: 14px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #394b40; }
+    th { color: var(--gold); }
+    td { color: #d0d9d2; }
+    .tag { display: inline-block; font-size: 11px; color: #eaca89; border: 1px solid #7f6940;
+      background: #302c1d; padding: 4px 9px; border-radius: 20px; }
+    .sector-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 13px; }
+    .sector-list span { background: #1d2a25; border: 1px solid #50604d; padding: 7px 12px; border-radius: 7px; font-size: 12px; }
+    .footer { padding: 20px; text-align: center; color: #a5aea5; font-size: 11px;
+      border-top: 1px solid #3c4437; letter-spacing: .4px; }
+    [hidden] { display: none !important; }
+    @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 760px) {
+      .header { min-height: 78px; padding: 10px 14px; gap: 12px; }
+      .emblem { width: 49px; height: 54px; font-size: 24px; }
+      .brand span { font-size: 9px; }
+      .brand small { font-size: 9px; letter-spacing: 1px; }
+      .edition { display: none; } .toggle { display: block; }
+      .layout { display: block; }
+      .sidebar { display: none; min-height: 0; border-right: 0; border-bottom: 1px solid #4a4f39; }
+      .sidebar.open { display: block; }
+      .hero { min-height: 320px; padding: 32px 22px; }
+      .hero::after { font-size: 145px; right: -10px; top: 35px; }
+      .grid, .grid.two { grid-template-columns: 1fr; }
+      .content { padding: 18px 14px 30px; }
+      .page-title { padding: 27px 19px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+<div class="shell">
+  <header class="header">
+    <div class="emblem" aria-hidden="true">★</div>
+    <div class="brand">
+      <small>ONESTATE RP · EXÉRCITO DE CHICO</small>
+      <strong>SETOR DE FORMAÇÃO MILITAR</strong>
+      <span>S.F.M. · DISCIPLINA · HONRA · LEALDADE</span>
+    </div>
+    <span class="edition">PORTAL EM DESENVOLVIMENTO</span>
+    <button id="menu-toggle" class="toggle" type="button" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">☰</button>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="nav-caption">NAVEGAÇÃO INSTITUCIONAL</div>
+      <nav id="navigation" aria-label="Menu principal"></nav>
+      <div class="side-note">Projeto para o universo do jogo OneState RP. Não é um portal do Exército Brasileiro real.</div>
+    </aside>
+    <main class="main" id="main">
+      <div id="app" aria-live="polite"></div>
+      <footer class="footer">EXÉRCITO DE CHICO · SETOR DE FORMAÇÃO MILITAR · ONESTATE RP<br>Portal em desenvolvimento · Informações sujeitas à validação do comando</footer>
+    </main>
+  </div>
+</div>
+<script>
+'use strict';
+// PRIMEIRA ENTREGA: páginas públicas demonstrativas. Não há autenticação, dados privados nem Supabase nesta versão.
+const groups = [
+  {name:'Academia de Formação', pages:[['academia','Visão geral'],['avaliacoes','Avaliações e provas'],['cursos','Cursos e módulos']]},
+  {name:'Central do Recruta', pages:[['central','Boas-vindas'],['codigo-q','Código Q'],['hierarquia','Hierarquia militar'],['materiais','Materiais de estudo'],['quartel','Reconhecimento do quartel'],['rp','Regras de Roleplay'],['regulamento','Regulamento do Exército']]},
+  {name:'Distribuição de Militares', pages:[['distribuicao','Fluxo de distribuição'],['setores','Setores de destino'],['transferencias','Histórico de transferências']]},
+  {name:'Gestão de Formação', pages:[['gestao','Visão geral'],['fichas','Ficha Militar Digital'],['presencas','Controle de presença']]},
+  {name:'Institucional', pages:[['institucional','Apresentação do setor'],['comando','Comando do S.F.M.'],['comunicados','Comunicados oficiais'],['cronograma','Cronograma de atividades']]},
+  {name:'Relatórios e Auditoria', pages:[['relatorios','Indicadores e relatórios'],['auditoria','Auditoria administrativa']]}
+];
+const knownPages = new Set(['inicio','administracao',...groups.flatMap(g=>g.pages.map(p=>p[0]))]);
+const content = {
+  academia: ['ACADEMIA DE FORMAÇÃO','Preparação e acompanhamento para a prova de confirmação.',
+    `<div class="grid"><article class="card"><h3>Acompanhamento diário</h3><p>O militar é observado durante suas atividades e sua participação em eventos.</p></article><article class="card"><h3>Conhecimento do EB e RP</h3><p>O aprendizado do regulamento interno e das regras de Roleplay compõe a formação.</p></article><article class="card"><h3>Prova na patente de Sargento</h3><p>A prova de confirmação é realizada quando o militar atinge Sargento, conforme as informações recebidas do S.F.M.</p></article></div>`],
+  avaliacoes: ['AVALIAÇÕES E PROVAS','Área prevista para aplicação, registro e acompanhamento das provas.',
+    `<div class="notice">A prova de confirmação é destinada ao militar que atingir a patente de Sargento. Formato, critérios e responsáveis ainda aguardam validação do comando.</div><div class="panel"><h2>Disponibilidade</h2><p>O sistema de provas ainda não foi ativado. Não existem resultados oficiais nesta versão inicial.</p></div>`],
+  cursos: ['CURSOS E MÓDULOS','Conteúdos de preparação para o serviço e as avaliações.',
+    `<div class="grid"><article class="card"><h3>Regras internas</h3><p>Estudo dos assuntos apresentados no regulamento do EB Chico.</p></article><article class="card"><h3>Comunicação</h3><p>Consulta ao material dos códigos Q e procedimentos de comunicação.</p><a href="#codigo-q">Consultar Códigos Q →</a></article><article class="card"><h3>Reconhecimento</h3><p>Material sobre os setores e o mapa da base militar.</p><a href="#quartel">Reconhecimento do quartel →</a></article></div>`],
+  central: ['CENTRAL DO RECRUTA','Informações essenciais para o integrante do Exército de Chico.',
+    `<div class="grid"><article class="card"><h3>Regras do Exército</h3><p>Índice dos 11 assuntos do regulamento interno recebido.</p><a href="#regulamento">Abrir regulamento →</a></article><article class="card"><h3>Códigos Q</h3><p>Material de consulta com os códigos e significados apresentados pelo EB Chico.</p><a href="#codigo-q">Consultar códigos →</a></article><article class="card"><h3>Reconhecimento da base</h3><p>Organização dos setores e referências do quartel.</p><a href="#quartel">Conhecer a base →</a></article></div>`],
+  hierarquia: ['HIERARQUIA MILITAR','Respeito à cadeia de comando e às autoridades do Exército.',
+    `<div class="panel"><h2>Orientação inicial</h2><p>O regulamento recebido determina respeito à hierarquia. A prova de confirmação da formação é realizada ao alcançar a patente de Sargento.</p><p>A relação completa das patentes e as regras de promoção do EB Chico ainda não foram fornecidas e não serão presumidas.</p></div>`],
+  materiais: ['MATERIAIS DE ESTUDO','Biblioteca de referências para a preparação dos militares.',
+    `<div class="grid"><article class="card"><h3>Regras básicas internas</h3><p>11 assuntos identificados no regulamento enviado.</p><a href="#regulamento">Abrir índice →</a></article><article class="card"><h3>Códigos Q</h3><p>16 códigos e expressões do material recebido.</p><a href="#codigo-q">Abrir consulta →</a></article><article class="card"><h3>Mapa e setores</h3><p>Estrutura territorial do quartel.</p><a href="#quartel">Abrir reconhecimento →</a></article></div>`],
+  quartel: ['RECONHECIMENTO DO QUARTEL','Organização dos setores e principais referências da base militar.',
+    `<div class="panel"><h2>Mapa oficial</h2><p>O mapa fornecido será incorporado aos arquivos do site em uma atualização específica, preservando a imagem original.</p><p>Nenhum mapa foi inventado ou substituído nesta primeira versão.</p></div><div class="panel"><h2>Setores</h2><div class="sector-list"><span>Leste</span><span>Sul</span><span>Norte</span><span>Centro</span><span>Papa</span><span>Terra</span><span>S.F.M.</span><span>C.O.M.A.F.</span><span>I.R.A.</span></div></div>`],
+  rp: ['REGRAS DE ROLEPLAY','Normas de interpretação e conduta no OneState RP.',
+    `<div class="notice">O regulamento completo de Roleplay ainda precisa ser fornecido ou validado para o EB Chico. Regras do EB Lomita não serão copiadas automaticamente.</div>`],
+  regulamento: ['REGULAMENTO DO EXÉRCITO','Índice dos assuntos do material de regras básicas internas recebido.',
+    `<div class="notice">Este é um índice de consulta, não a transcrição integral das regras. A publicação do texto completo dependerá da conferência dos documentos.</div><div class="grid two">${['01 · Hierarquia','02 · Acesso à torre','03 · FARM — Emprego de vigia','04 · Missão diária da VTR','05 · PPF — Pedir a palavra','06 · Patente de Sargento e transferências','07 · Comunicação na rádio','08 · Assuntos polêmicos','09 · Negociação de veículos','10 · Hinos / saída da base','11 · Assédio'].map(x=>`<div class="card"><h3>${x}</h3></div>`).join('')}</div>`],
+  distribuicao: ['DISTRIBUIÇÃO DE MILITARES','Processo de encaminhamento aos demais setores após a etapa de formação.',
+    `<div class="notice">Conforme as informações recebidas, a prova é aplicada quando o militar atinge Sargento; a distribuição depende dessa etapa e de autorização competente.</div><div class="steps">${['Alcançar a patente de Sargento','Realizar a prova de confirmação','Registrar o resultado e verificar a aptidão','Solicitar e autorizar o encaminhamento','Registrar o setor de destino e preservar o histórico'].map((x,i)=>`<div class="step"><b>${i+1}</b><span>${x}</span></div>`).join('')}</div><div class="panel"><h2>Sistema administrativo</h2><p>As autorizações e os registros de distribuição serão habilitados após configurar as permissões e o banco de dados.</p></div>`],
+  setores: ['SETORES DE DESTINO','Estrutura institucional identificada nos materiais do EB Chico.',
+    `<div class="panel"><h2>Setores convencionais</h2><div class="sector-list"><span>Leste</span><span>Sul</span><span>Norte</span><span>Centro</span><span>Papa</span><span>Terra</span><span>S.F.M.</span></div></div><div class="panel"><h2>Setores operacionais</h2><div class="sector-list"><span>C.O.M.A.F.</span><span>I.R.A.</span></div><p>Nem todos os setores estão necessariamente habilitados para receber transferências. A lista de destinos permitidos será definida pelo comando.</p></div>`],
+  transferencias: ['HISTÓRICO DE TRANSFERÊNCIAS','Registro administrativo dos encaminhamentos autorizados.',
+    `<div class="panel"><h2>Aguardando integração</h2><p>O histórico individual de transferências será consultável apenas por responsáveis autorizados após a configuração do Supabase.</p></div>`],
+  gestao: ['GESTÃO DE FORMAÇÃO','Acompanhamento dos militares, presenças e desenvolvimento.',
+    `<div class="grid"><article class="card"><h3>Cadastro de militares</h3><p>Identificação individual e situação da formação.</p></article><article class="card"><h3>Acompanhamento diário</h3><p>Participação em eventos e aprendizagem das regras.</p></article><article class="card"><h3>Resultados e histórico</h3><p>Registro de avaliações e decisões autorizadas.</p></article></div><div class="notice">Os dados individuais não serão exibidos publicamente. O módulo administrativo será conectado ao Supabase em etapa posterior.</div>`],
+  fichas: ['FICHA MILITAR DIGITAL','Histórico individual de formação e movimentações.',
+    `<div class="panel"><h2>Área protegida em preparação</h2><p>A Ficha Militar Digital será acessível apenas às contas autorizadas. Nenhum dado privado está armazenado neste site inicial.</p></div>`],
+  presencas: ['CONTROLE DE PRESENÇA','Participação dos militares nos eventos e nas atividades do Exército.',
+    `<div class="panel"><h2>Registro de presença</h2><p>O sistema permitirá documentar presença em eventos, responsável pelo registro e data da atividade. O cadastro ficará disponível somente após configurar o painel seguro.</p></div>`],
+  institucional: ['APRESENTAÇÃO DO S.F.M.','Conheça a função do Setor de Formação Militar do Exército de Chico.',
+    `<div class="panel"><h2>Setor de Formação Militar</h2><p>O S.F.M. acompanha o desenvolvimento dos novos integrantes, apoia seu aprendizado e organiza a prova de confirmação na patente de Sargento, conforme as informações fornecidas para este projeto.</p><p>O texto institucional definitivo e a apresentação do comando serão validados antes da publicação como conteúdo oficial.</p></div>`],
+  comando: ['COMANDO DO S.F.M.','Composição do comando e responsáveis pela formação.',
+    `<div class="panel"><h2>Informações oficiais pendentes</h2><p>Os nomes, cargos e atribuições dos comandantes serão adicionados após confirmação. Nenhum nome ou patente será inventado.</p></div>`],
+  comunicados: ['COMUNICADOS OFICIAIS','Publicações e avisos autorizados do Setor de Formação Militar.',
+    `<div class="panel"><h2>Nenhum comunicado cadastrado</h2><p>A publicação de comunicados será habilitada no painel administrativo após a integração ao Supabase.</p></div>`],
+  cronograma: ['CRONOGRAMA DE ATIVIDADES','Agenda de eventos, estudos e atividades do setor.',
+    `<div class="panel"><h2>Cronograma a definir</h2><p>Horários e atividades oficiais serão cadastrados pelos administradores autorizados. Não há eventos confirmados nesta versão.</p></div>`],
+  relatorios: ['INDICADORES E RELATÓRIOS','Visão administrativa do acompanhamento e da distribuição.',
+    `<div class="grid"><article class="card"><h3>Formação</h3><p>Indicadores de acompanhamento e avaliações.</p></article><article class="card"><h3>Participação</h3><p>Relatórios de presença em eventos.</p></article><article class="card"><h3>Distribuição</h3><p>Encaminhamentos por setor e período.</p></article></div><div class="notice">Não serão apresentados números simulados como se fossem dados reais.</div>`],
+  auditoria: ['AUDITORIA ADMINISTRATIVA','Rastreabilidade das alterações e decisões relevantes.',
+    `<div class="panel"><h2>Módulo protegido em preparação</h2><p>Os registros serão gerados e protegidos no banco de dados. Esta página não expõe operações administrativas.</p></div>`]
+};
+const qCodes = [
+  ['QAP','Na escuta'],['QSL','Entendido / Compreendido'],['TKS','Obrigado'],['QTH','Local / Endereço'],
+  ['QTI','A caminho'],['QRV','À disposição / Às ordens'],['QRU','Ocorrência'],['QAR','Permissão para sair da rádio'],
+  ['QRA','Nome ou patente'],['QRX','Aguarde'],['QRN','Interferência na rádio'],['QTA','Cancelar mensagem'],
+  ['QRR','Solicitar apoio'],['QTX','Saindo por tempo indeterminado'],['QTC','Mensagem'],['QSD','Motorista']
+];
+content['codigo-q'] = ['CÓDIGOS Q','Tabela de consulta baseada no material de estudos recebido do EB Chico.',
+  `<div class="panel"><h2>Consulta aos códigos</h2><div class="table-wrap"><table><thead><tr><th>Código</th><th>Significado</th></tr></thead><tbody>${qCodes.map(([c,m])=>`<tr><th scope="row">${c}</th><td>${m}</td></tr>`).join('')}</tbody></table></div></div>`];
+function home() {
+  return `<section class="hero"><div class="hero-content"><span class="eyebrow">Exército de Chico · OneState Roleplay</span><h1>PREPARAR.<br>FORMAR.<br><em>EVOLUIR.</em></h1><p>Bem-vindo ao Portal do Setor de Formação Militar. Regras, materiais, acompanhamento e organização do processo de formação em um só lugar.</p><div class="actions"><a class="btn" href="#central">CENTRAL DO RECRUTA →</a><a class="btn secondary" href="#institucional">CONHEÇA O S.F.M.</a></div></div></section>
+  <div class="content"><div class="section-head"><h2>ACESSOS PRINCIPAIS</h2><span class="tag">ESTRUTURA INICIAL</span></div><div class="grid">
+    <article class="card"><span class="number">01 / PREPARAÇÃO</span><h3>Central do Recruta</h3><p>Regras e orientações fundamentais para o serviço.</p><a href="#central">Acessar central →</a></article>
+    <article class="card"><span class="number">02 / ESTUDO</span><h3>Academia de Formação</h3><p>Acompanhamento, conteúdos e informações sobre avaliações.</p><a href="#academia">Acessar academia →</a></article>
+    <article class="card"><span class="number">03 / EVOLUÇÃO</span><h3>Distribuição de Militares</h3><p>Entenda o fluxo previsto para encaminhamento aos setores.</p><a href="#distribuicao">Consultar fluxo →</a></article>
+  </div><div class="panel"><h2>COMO FUNCIONA A FORMAÇÃO?</h2><div class="steps"><div class="step"><b>1</b><span><strong>Ingresso:</strong> cadastro e início do acompanhamento.</span></div><div class="step"><b>2</b><span><strong>Atividades:</strong> presença em eventos e aprendizado das regras EB e RP.</span></div><div class="step"><b>3</b><span><strong>Sargento:</strong> etapa de prova de confirmação, conforme orientações recebidas.</span></div><div class="step"><b>4</b><span><strong>Encaminhamento:</strong> distribuição sujeita ao resultado e à autorização competente.</span></div></div></div>
+  <div class="notice">Este portal está em desenvolvimento. As funcionalidades administrativas ainda não estão ativas e as regras específicas pendentes serão confirmadas com o comando.</div></div>`;
+}
+function adminPage() {
+  return `<div class="page-title"><span class="eyebrow">Acesso administrativo</span><h1>ADMINISTRAÇÃO</h1><p>Gerenciamento do Portal do Setor de Formação Militar</p></div><div class="content"><div class="notice">Painel ainda não configurado. Não existe login funcional nesta versão e nenhum dado de militares foi publicado.</div><div class="grid two"><article class="card"><h3>Conta do responsável</h3><p>Perfil administrativo individual previsto para a gestão do portal.</p><span class="tag">A configurar</span></article><article class="card"><h3>Conta do comando do S.F.M.</h3><p>Segunda conta prevista, com permissões que dependerão de validação.</p><span class="tag">A configurar</span></article></div><div class="panel"><h2>Próxima integração</h2><p>Supabase Auth, permissões no banco de dados, cadastros, avaliações, distribuições e auditoria serão implementados nas etapas seguintes.</p></div></div>`;
+}
+function navMarkup(active) {
+  const links = `<a class="nav-link ${active==='inicio'?'active':''}" href="#inicio">⌂ &nbsp; Início</a><a class="nav-link ${active==='administracao'?'active':''}" href="#administracao">⚙ &nbsp; Administração</a>`;
+  return links + groups.map(g=>`<details class="nav-group" ${g.pages.some(p=>p[0]===active)?'open':''}><summary>${g.name}</summary><div class="nav-group-items">${g.pages.map(([id,label])=>`<a class="nav-sub ${active===id?'active':''}" href="#${id}">${label}</a>`).join('')}</div></details>`).join('');
+}
+function render() {
+  let id = decodeURIComponent(location.hash.replace(/^#/,'') || 'inicio');
+  if (!knownPages.has(id)) id = 'inicio';
+  document.getElementById('navigation').innerHTML = navMarkup(id);
+  const app = document.getElementById('app');
+  if (id === 'inicio') app.innerHTML = home();
+  else if (id === 'administracao') app.innerHTML = adminPage();
+  else {
+    const [title, subtitle, html] = content[id];
+    app.innerHTML = `<div class="page-title"><span class="eyebrow">Portal S.F.M. · EB Chico</span><h1>${title}</h1><p>${subtitle}</p></div><div class="content">${html}</div>`;
+  }
+  const display = id === 'inicio' ? 'Início' : id === 'administracao' ? 'Administração' : content[id][0];
+  document.title = `${display} | Portal S.F.M. — EB Chico`;
+  document.querySelectorAll('#navigation a').forEach(a=>{if(a.classList.contains('active'))a.setAttribute('aria-current','page');});
+  document.getElementById('sidebar').classList.remove('open');
+  const toggle = document.getElementById('menu-toggle');
+  toggle.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-label','Abrir menu');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+document.getElementById('menu-toggle').addEventListener('click', () => {
+  const sidebar = document.getElementById('sidebar');
+  const open = sidebar.classList.toggle('open');
+  const toggle = document.getElementById('menu-toggle');
+  toggle.setAttribute('aria-expanded', String(open));
+  toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+});
+window.addEventListener('hashchange', render);
+render();
+</script>
+</body>
+</html>

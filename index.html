@@ -54,13 +54,20 @@
     .side-note { margin: 25px 11px; padding-top: 17px; border-top: 1px solid #344035;
       color: #9ca89f; font-size: 11px; }
     .main { min-width: 0; }
-    .hero { position: relative; overflow: hidden; min-height: 360px; display: flex; align-items: center;
-      background: radial-gradient(circle at 84% 44%, #44603a75, transparent 29%),
-      linear-gradient(115deg, #0e1917 12%, #1c3024 66%, #09100f); border-bottom: 1px solid var(--gold2);
-      padding: 45px clamp(22px, 5vw, 60px); }
-    .hero::after { content: '★'; font-size: 260px; line-height: 1; color: #e6bd6511;
-      position: absolute; right: 5%; top: 12%; pointer-events: none; }
-    .hero-content { position: relative; z-index: 1; max-width: 610px; }
+    /* Banner principal: imagem militar otimizada com contraste para leitura. */
+    .hero { position: relative; overflow: hidden; min-height: clamp(410px, 64vh, 680px);
+      display: flex; align-items: center;
+      background-color: #0c1919;
+      background-image: linear-gradient(90deg, rgba(3, 10, 12, .95) 0%, rgba(3, 10, 12, .81) 26%, rgba(3, 10, 12, .35) 63%, rgba(3, 10, 12, .19) 100%),
+        linear-gradient(0deg, rgba(3, 10, 12, .55), transparent 42%),
+        url('tema-inicial-sfm.webp');
+      background-size: cover; background-position: center center; background-repeat: no-repeat;
+      border-bottom: 1px solid var(--gold2);
+      padding: 56px clamp(22px, 5vw, 60px); }
+    .hero::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, rgba(5,12,12,.2), transparent 24%, rgba(5,12,12,.25)); }
+    .hero-content { position: relative; z-index: 1; max-width: 610px;
+      text-shadow: 0 2px 13px rgba(0,0,0,.65); }
     .eyebrow { color: var(--gold); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 800; }
     h1 { margin: 12px 0; font-size: clamp(32px, 4.4vw, 59px); line-height: 1.09; letter-spacing: -.4px; }
     h1 em { color: var(--gold); font-style: normal; }
@@ -121,8 +128,9 @@
       .layout { display: block; }
       .sidebar { display: none; min-height: 0; border-right: 0; border-bottom: 1px solid #4a4f39; }
       .sidebar.open { display: block; }
-      .hero { min-height: 320px; padding: 32px 22px; }
-      .hero::after { font-size: 145px; right: -10px; top: 35px; }
+      .hero { min-height: 460px; padding: 36px 22px; background-position: 44% center;
+        background-image: linear-gradient(90deg, rgba(3,10,12,.9), rgba(3,10,12,.52)),
+          linear-gradient(0deg, rgba(3,10,12,.5), transparent 45%), url('tema-inicial-sfm.webp'); }
       .grid, .grid.two { grid-template-columns: 1fr; }
       .content { padding: 18px 14px 30px; }
       .page-title { padding: 27px 19px; }

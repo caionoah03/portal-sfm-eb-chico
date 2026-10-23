@@ -128,6 +128,34 @@
       .page-title { padding: 27px 19px; }
     }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+    /* Área administrativa: compatível com o visual original */
+    .sfm-toolbar { display:flex; gap:9px; flex-wrap:wrap; margin:14px 0; align-items:center; }
+    .sfm-field { display:grid; gap:5px; min-width:0; }
+    .sfm-field label { color:var(--gold); font-size:12px; font-weight:bold; }
+    .sfm-field input, .sfm-field select, .sfm-field textarea { width:100%; border-radius:6px; border:1px solid #67745d; background:#0c1615; color:#faf9ef; font:inherit; padding:10px; }
+    .sfm-field textarea { min-height:93px; resize:vertical; }
+    .sfm-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px; margin:13px 0; }
+    .sfm-full { grid-column:1/-1; }
+    .sfm-form-actions { grid-column:1/-1; display:flex; gap:10px; flex-wrap:wrap; }
+    .sfm-button { border:1px solid #a38647; background:var(--gold); color:#152019; padding:9px 14px; font-weight:750; cursor:pointer; border-radius:6px; font-size:13px; }
+    .sfm-button:hover { background:#ffda96; }
+    .sfm-button.secondary { background:#15231f; color:var(--gold); }
+    .sfm-button.danger { background:#40221f; color:#ffd8cb; border-color:#99544e; }
+    .sfm-button:disabled { opacity:.6; cursor:not-allowed; }
+    .sfm-tab { padding:8px 11px; background:#15251e; color:#e2e8d9; border:1px solid #50654a; border-radius:6px; cursor:pointer; font-size:12px; }
+    .sfm-tab[aria-selected="true"] { background:#504323; border-color:var(--gold); color:#ffebbf; }
+    .sfm-status { padding:9px 12px; border:1px solid #667657; border-radius:7px; margin:10px 0; color:#eaeacb; }
+    .sfm-status.error { border-color:#c86f69; color:#ffd0c9; }
+    .sfm-status.good { border-color:#709a74; color:#c7f4c2; }
+    .sfm-hint { color:#b7c7bb; font-size:12px; }
+    .sfm-scroll { overflow-x:auto; max-width:100%; }
+    .sfm-scroll table { min-width:640px; }
+    .sfm-scroll td { max-width:240px; overflow-wrap:anywhere; }
+    .sfm-small { font-size:11px; color:var(--muted); }
+    .sfm-number { color:var(--gold); font-size:29px; font-weight:bold; }
+    @media (max-width:760px) { .sfm-form { grid-template-columns:1fr; } }
+
   </style>
 </head>
 <body>
@@ -156,7 +184,7 @@
 </div>
 <script>
 'use strict';
-// PRIMEIRA ENTREGA: páginas públicas demonstrativas. Não há autenticação, dados privados nem Supabase nesta versão.
+// Portal público e administrativo. A integração Supabase é inicializada em script separado.
 const groups = [
   {name:'Academia de Formação', pages:[['academia','Visão geral'],['avaliacoes','Avaliações e provas'],['cursos','Cursos e módulos']]},
   {name:'Central do Recruta', pages:[['central','Boas-vindas'],['codigo-q','Código Q'],['hierarquia','Hierarquia militar'],['materiais','Materiais de estudo'],['quartel','Reconhecimento do quartel'],['rp','Regras de Roleplay'],['regulamento','Regulamento do Exército']]},
@@ -170,7 +198,7 @@ const content = {
   academia: ['ACADEMIA DE FORMAÇÃO','Preparação e acompanhamento para a prova de confirmação.',
     `<div class="grid"><article class="card"><h3>Acompanhamento diário</h3><p>O militar é observado durante suas atividades e sua participação em eventos.</p></article><article class="card"><h3>Conhecimento do EB e RP</h3><p>O aprendizado do regulamento interno e das regras de Roleplay compõe a formação.</p></article><article class="card"><h3>Prova na patente de Sargento</h3><p>A prova de confirmação é realizada quando o militar atinge Sargento, conforme as informações recebidas do S.F.M.</p></article></div>`],
   avaliacoes: ['AVALIAÇÕES E PROVAS','Área prevista para aplicação, registro e acompanhamento das provas.',
-    `<div class="notice">A prova de confirmação é destinada ao militar que atingir a patente de Sargento. Formato, critérios e responsáveis ainda aguardam validação do comando.</div><div class="panel"><h2>Disponibilidade</h2><p>O sistema de provas ainda não foi ativado. Não existem resultados oficiais nesta versão inicial.</p></div>`],
+    `<div class="notice">A prova de confirmação é destinada ao militar que atingir a patente de Sargento. Formato, critérios e responsáveis ainda aguardam validação do comando.</div><div class="panel"><h2>Disponibilidade</h2><p>A gestão de avaliações permanece restrita ao comando; critérios oficiais de confirmação ainda estão pendentes de validação.</p></div>`],
   cursos: ['CURSOS E MÓDULOS','Conteúdos de preparação para o serviço e as avaliações.',
     `<div class="grid"><article class="card"><h3>Regras internas</h3><p>Estudo dos assuntos apresentados no regulamento do EB Chico.</p></article><article class="card"><h3>Comunicação</h3><p>Consulta ao material dos códigos Q e procedimentos de comunicação.</p><a href="#codigo-q">Consultar Códigos Q →</a></article><article class="card"><h3>Reconhecimento</h3><p>Material sobre os setores e o mapa da base militar.</p><a href="#quartel">Reconhecimento do quartel →</a></article></div>`],
   central: ['CENTRAL DO RECRUTA','Informações essenciais para o integrante do Exército de Chico.',
@@ -178,7 +206,7 @@ const content = {
   hierarquia: ['HIERARQUIA MILITAR','Respeito à cadeia de comando e às autoridades do Exército.',
     `<div class="panel"><h2>Orientação inicial</h2><p>O regulamento recebido determina respeito à hierarquia. A prova de confirmação da formação é realizada ao alcançar a patente de Sargento.</p><p>A relação completa das patentes e as regras de promoção do EB Chico ainda não foram fornecidas e não serão presumidas.</p></div>`],
   materiais: ['MATERIAIS DE ESTUDO','Biblioteca de referências para a preparação dos militares.',
-    `<div class="grid"><article class="card"><h3>Regras básicas internas</h3><p>11 assuntos identificados no regulamento enviado.</p><a href="#regulamento">Abrir índice →</a></article><article class="card"><h3>Códigos Q</h3><p>16 códigos e expressões do material recebido.</p><a href="#codigo-q">Abrir consulta →</a></article><article class="card"><h3>Mapa e setores</h3><p>Estrutura territorial do quartel.</p><a href="#quartel">Abrir reconhecimento →</a></article></div>`],
+    `<div class="grid"><article class="card"><h3>Regras básicas internas</h3><p>11 assuntos identificados no regulamento enviado.</p><a href="#regulamento">Abrir índice →</a></article><article class="card"><h3>Códigos Q</h3><p>16 códigos e expressões do material recebido.</p><a href="#codigo-q">Abrir consulta →</a></article><article class="card"><h3>Mapa e setores</h3><p>Estrutura territorial do quartel.</p><a href="#quartel">Abrir reconhecimento →</a></article></div><div class="panel"><h2>Materiais publicados pelo Comando</h2><div id="sfm-public-materials">Carregando materiais...</div></div>`],
   quartel: ['RECONHECIMENTO DO QUARTEL','Organização dos setores e principais referências da base militar.',
     `<div class="panel"><h2>Mapa oficial</h2><p>O mapa fornecido será incorporado aos arquivos do site em uma atualização específica, preservando a imagem original.</p><p>Nenhum mapa foi inventado ou substituído nesta primeira versão.</p></div><div class="panel"><h2>Setores</h2><div class="sector-list"><span>Leste</span><span>Sul</span><span>Norte</span><span>Centro</span><span>Papa</span><span>Terra</span><span>S.F.M.</span><span>C.O.M.A.F.</span><span>I.R.A.</span></div></div>`],
   rp: ['REGRAS DE ROLEPLAY','Normas de interpretação e conduta no OneState RP.',
@@ -186,29 +214,29 @@ const content = {
   regulamento: ['REGULAMENTO DO EXÉRCITO','Índice dos assuntos do material de regras básicas internas recebido.',
     `<div class="notice">Este é um índice de consulta, não a transcrição integral das regras. A publicação do texto completo dependerá da conferência dos documentos.</div><div class="grid two">${['01 · Hierarquia','02 · Acesso à torre','03 · FARM — Emprego de vigia','04 · Missão diária da VTR','05 · PPF — Pedir a palavra','06 · Patente de Sargento e transferências','07 · Comunicação na rádio','08 · Assuntos polêmicos','09 · Negociação de veículos','10 · Hinos / saída da base','11 · Assédio'].map(x=>`<div class="card"><h3>${x}</h3></div>`).join('')}</div>`],
   distribuicao: ['DISTRIBUIÇÃO DE MILITARES','Processo de encaminhamento aos demais setores após a etapa de formação.',
-    `<div class="notice">Conforme as informações recebidas, a prova é aplicada quando o militar atinge Sargento; a distribuição depende dessa etapa e de autorização competente.</div><div class="steps">${['Alcançar a patente de Sargento','Realizar a prova de confirmação','Registrar o resultado e verificar a aptidão','Solicitar e autorizar o encaminhamento','Registrar o setor de destino e preservar o histórico'].map((x,i)=>`<div class="step"><b>${i+1}</b><span>${x}</span></div>`).join('')}</div><div class="panel"><h2>Sistema administrativo</h2><p>As autorizações e os registros de distribuição serão habilitados após configurar as permissões e o banco de dados.</p></div>`],
+    `<div class="notice">Conforme as informações recebidas, a prova é aplicada quando o militar atinge Sargento; a distribuição depende dessa etapa e de autorização competente.</div><div class="steps">${['Alcançar a patente de Sargento','Realizar a prova de confirmação','Registrar o resultado e verificar a aptidão','Solicitar e autorizar o encaminhamento','Registrar o setor de destino e preservar o histórico'].map((x,i)=>`<div class="step"><b>${i+1}</b><span>${x}</span></div>`).join('')}</div><div class="panel"><h2>Sistema administrativo</h2><p>O banco já possui a estrutura de distribuição. A operação será liberada no painel após validação das regras de autorização pelo comando.</p></div>`],
   setores: ['SETORES DE DESTINO','Estrutura institucional identificada nos materiais do EB Chico.',
     `<div class="panel"><h2>Setores convencionais</h2><div class="sector-list"><span>Leste</span><span>Sul</span><span>Norte</span><span>Centro</span><span>Papa</span><span>Terra</span><span>S.F.M.</span></div></div><div class="panel"><h2>Setores operacionais</h2><div class="sector-list"><span>C.O.M.A.F.</span><span>I.R.A.</span></div><p>Nem todos os setores estão necessariamente habilitados para receber transferências. A lista de destinos permitidos será definida pelo comando.</p></div>`],
   transferencias: ['HISTÓRICO DE TRANSFERÊNCIAS','Registro administrativo dos encaminhamentos autorizados.',
-    `<div class="panel"><h2>Aguardando integração</h2><p>O histórico individual de transferências será consultável apenas por responsáveis autorizados após a configuração do Supabase.</p></div>`],
+    `<div class="panel"><h2>Aguardando integração</h2><p>Os registros de transferências são dados restritos. A liberação de ações dependerá das regras de autorização do comando.</p></div>`],
   gestao: ['GESTÃO DE FORMAÇÃO','Acompanhamento dos militares, presenças e desenvolvimento.',
-    `<div class="grid"><article class="card"><h3>Cadastro de militares</h3><p>Identificação individual e situação da formação.</p></article><article class="card"><h3>Acompanhamento diário</h3><p>Participação em eventos e aprendizagem das regras.</p></article><article class="card"><h3>Resultados e histórico</h3><p>Registro de avaliações e decisões autorizadas.</p></article></div><div class="notice">Os dados individuais não serão exibidos publicamente. O módulo administrativo será conectado ao Supabase em etapa posterior.</div>`],
+    `<div class="grid"><article class="card"><h3>Cadastro de militares</h3><p>Identificação individual e situação da formação.</p></article><article class="card"><h3>Acompanhamento diário</h3><p>Participação em eventos e aprendizagem das regras.</p></article><article class="card"><h3>Resultados e histórico</h3><p>Registro de avaliações e decisões autorizadas.</p></article></div><div class="notice">Os dados individuais não serão exibidos publicamente. Os cadastros administrativos são restritos a usuários autenticados e autorizados.</div>`],
   fichas: ['FICHA MILITAR DIGITAL','Histórico individual de formação e movimentações.',
-    `<div class="panel"><h2>Área protegida em preparação</h2><p>A Ficha Militar Digital será acessível apenas às contas autorizadas. Nenhum dado privado está armazenado neste site inicial.</p></div>`],
+    `<div class="panel"><h2>Área protegida</h2><p>A Ficha Militar Digital será acessível apenas às contas autorizadas. Os dados individuais são mantidos no banco protegido, não no código público do site.</p></div>`],
   presencas: ['CONTROLE DE PRESENÇA','Participação dos militares nos eventos e nas atividades do Exército.',
-    `<div class="panel"><h2>Registro de presença</h2><p>O sistema permitirá documentar presença em eventos, responsável pelo registro e data da atividade. O cadastro ficará disponível somente após configurar o painel seguro.</p></div>`],
+    `<div class="panel"><h2>Registro de presença</h2><p>O sistema permitirá documentar presença em eventos, responsável pelo registro e data da atividade. O cadastro e o registro ficam disponíveis somente no painel administrativo autenticado.</p></div>`],
   institucional: ['APRESENTAÇÃO DO S.F.M.','Conheça a função do Setor de Formação Militar do Exército de Chico.',
     `<div class="panel"><h2>Setor de Formação Militar</h2><p>O S.F.M. acompanha o desenvolvimento dos novos integrantes, apoia seu aprendizado e organiza a prova de confirmação na patente de Sargento, conforme as informações fornecidas para este projeto.</p><p>O texto institucional definitivo e a apresentação do comando serão validados antes da publicação como conteúdo oficial.</p></div>`],
   comando: ['COMANDO DO S.F.M.','Composição do comando e responsáveis pela formação.',
     `<div class="panel"><h2>Informações oficiais pendentes</h2><p>Os nomes, cargos e atribuições dos comandantes serão adicionados após confirmação. Nenhum nome ou patente será inventado.</p></div>`],
   comunicados: ['COMUNICADOS OFICIAIS','Publicações e avisos autorizados do Setor de Formação Militar.',
-    `<div class="panel"><h2>Nenhum comunicado cadastrado</h2><p>A publicação de comunicados será habilitada no painel administrativo após a integração ao Supabase.</p></div>`],
+    `<div class="panel"><h2>Comunicados públicos</h2><p>Os comunicados publicados pelo comando serão exibidos abaixo.</p><div id="sfm-public-notices">Carregando comunicados...</div></div>`],
   cronograma: ['CRONOGRAMA DE ATIVIDADES','Agenda de eventos, estudos e atividades do setor.',
-    `<div class="panel"><h2>Cronograma a definir</h2><p>Horários e atividades oficiais serão cadastrados pelos administradores autorizados. Não há eventos confirmados nesta versão.</p></div>`],
+    `<div class="panel"><h2>Cronograma a definir</h2><p>Horários e atividades oficiais serão cadastrados pelos administradores autorizados. A programação pública será definida pelo comando.</p></div>`],
   relatorios: ['INDICADORES E RELATÓRIOS','Visão administrativa do acompanhamento e da distribuição.',
     `<div class="grid"><article class="card"><h3>Formação</h3><p>Indicadores de acompanhamento e avaliações.</p></article><article class="card"><h3>Participação</h3><p>Relatórios de presença em eventos.</p></article><article class="card"><h3>Distribuição</h3><p>Encaminhamentos por setor e período.</p></article></div><div class="notice">Não serão apresentados números simulados como se fossem dados reais.</div>`],
   auditoria: ['AUDITORIA ADMINISTRATIVA','Rastreabilidade das alterações e decisões relevantes.',
-    `<div class="panel"><h2>Módulo protegido em preparação</h2><p>Os registros serão gerados e protegidos no banco de dados. Esta página não expõe operações administrativas.</p></div>`]
+    `<div class="panel"><h2>Módulo protegido</h2><p>Os registros serão gerados e protegidos no banco de dados. Esta página não expõe operações administrativas.</p></div>`]
 };
 const qCodes = [
   ['QAP','Na escuta'],['QSL','Entendido / Compreendido'],['TKS','Obrigado'],['QTH','Local / Endereço'],
@@ -225,11 +253,12 @@ function home() {
     <article class="card"><span class="number">02 / ESTUDO</span><h3>Academia de Formação</h3><p>Acompanhamento, conteúdos e informações sobre avaliações.</p><a href="#academia">Acessar academia →</a></article>
     <article class="card"><span class="number">03 / EVOLUÇÃO</span><h3>Distribuição de Militares</h3><p>Entenda o fluxo previsto para encaminhamento aos setores.</p><a href="#distribuicao">Consultar fluxo →</a></article>
   </div><div class="panel"><h2>COMO FUNCIONA A FORMAÇÃO?</h2><div class="steps"><div class="step"><b>1</b><span><strong>Ingresso:</strong> cadastro e início do acompanhamento.</span></div><div class="step"><b>2</b><span><strong>Atividades:</strong> presença em eventos e aprendizado das regras EB e RP.</span></div><div class="step"><b>3</b><span><strong>Sargento:</strong> etapa de prova de confirmação, conforme orientações recebidas.</span></div><div class="step"><b>4</b><span><strong>Encaminhamento:</strong> distribuição sujeita ao resultado e à autorização competente.</span></div></div></div>
-  <div class="notice">Este portal está em desenvolvimento. As funcionalidades administrativas ainda não estão ativas e as regras específicas pendentes serão confirmadas com o comando.</div></div>`;
+  <div class="notice">Este portal está em desenvolvimento. As funcionalidades administrativas estão sendo liberadas gradualmente e as regras específicas pendentes serão confirmadas com o comando.</div></div>`;
 }
 function adminPage() {
-  return `<div class="page-title"><span class="eyebrow">Acesso administrativo</span><h1>ADMINISTRAÇÃO</h1><p>Gerenciamento do Portal do Setor de Formação Militar</p></div><div class="content"><div class="notice">Painel ainda não configurado. Não existe login funcional nesta versão e nenhum dado de militares foi publicado.</div><div class="grid two"><article class="card"><h3>Conta do responsável</h3><p>Perfil administrativo individual previsto para a gestão do portal.</p><span class="tag">A configurar</span></article><article class="card"><h3>Conta do comando do S.F.M.</h3><p>Segunda conta prevista, com permissões que dependerão de validação.</p><span class="tag">A configurar</span></article></div><div class="panel"><h2>Próxima integração</h2><p>Supabase Auth, permissões no banco de dados, cadastros, avaliações, distribuições e auditoria serão implementados nas etapas seguintes.</p></div></div>`;
+  return `<div class="page-title"><span class="eyebrow">Acesso protegido · Supabase Auth</span><h1>ADMINISTRAÇÃO</h1><p>Gestão do Setor de Formação Militar · Exército de Chico</p></div><div class="content" id="sfm-admin"><div class="panel"><h2>Conectando ao banco de dados</h2><p>Verificando autenticação e permissões administrativas...</p></div></div>`;
 }
+
 function navMarkup(active) {
   const links = `<a class="nav-link ${active==='inicio'?'active':''}" href="#inicio">⌂ &nbsp; Início</a><a class="nav-link ${active==='administracao'?'active':''}" href="#administracao">⚙ &nbsp; Administração</a>`;
   return links + groups.map(g=>`<details class="nav-group" ${g.pages.some(p=>p[0]===active)?'open':''}><summary>${g.name}</summary><div class="nav-group-items">${g.pages.map(([id,label])=>`<a class="nav-sub ${active===id?'active':''}" href="#${id}">${label}</a>`).join('')}</div></details>`).join('');
@@ -251,6 +280,7 @@ function render() {
   document.getElementById('sidebar').classList.remove('open');
   const toggle = document.getElementById('menu-toggle');
   toggle.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-label','Abrir menu');
+  if (typeof window.sfmAfterRender === 'function') window.sfmAfterRender(id);
   window.scrollTo({top:0,behavior:'instant'});
 }
 document.getElementById('menu-toggle').addEventListener('click', () => {
@@ -262,6 +292,234 @@ document.getElementById('menu-toggle').addEventListener('click', () => {
 });
 window.addEventListener('hashchange', render);
 render();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+'use strict';
+// Integração pública do Portal S.F.M. — somente chave publishable, nunca uma chave secreta.
+(() => {
+  const URL = 'https://pxxwhmaqkcuecezbpzai.supabase.co';
+  const KEY = 'sb_publishable_LJi42PwasmjLHgKKZmfHuA_O0XRHNYq';
+  const available = !!(window.supabase && window.supabase.createClient);
+  const api = available ? window.supabase.createClient(URL, KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+  }) : null;
+  const state = { ready:false, user:null, profile:null, tab:'resumo', rows:[], editing:null, lookups:{}, busy:false, error:'', notice:'' };
+  const h = v => String(v === null || v === undefined ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmt = v => v ? new Date(v).toLocaleString('pt-BR') : '—';
+  const labels = {
+    militares:'Militares', acompanhamentos:'Acompanhamentos', eventos:'Eventos', presencas:'Presenças',
+    comunicados:'Comunicados', historico_patentes:'Histórico de patentes',
+    modulos_formacao:'Módulos de formação', materiais_estudo:'Materiais de estudo',
+    avaliacoes:'Avaliações', auditoria_administrativa:'Auditoria'
+  };
+  const sections = {
+    militares:{ fields:[['nome','Nome do militar','text',true],['identificacao_jogo','Identificação no jogo','text'],['patente_atual','Patente atual','text',true],['setor_atual','Setor atual','text',true],['situacao','Situação','select',true,['em_formacao','aguardando_confirmacao','desligado']],['observacoes','Observações','textarea']] , preview:['nome','identificacao_jogo','patente_atual','situacao'], order:'criado_em' },
+    acompanhamentos:{fields:[['militar_id','Militar','militar',true],['categoria','Categoria','select',true,['disciplina','regras_eb','regras_rp','desempenho','orientacao','outros']],['descricao','Descrição do acompanhamento','textarea',true]], preview:['militar_id','categoria','descricao','data_registro'],order:'criado_em'},
+    eventos:{fields:[['titulo','Título do evento','text',true],['descricao','Descrição','textarea'],['inicio','Início do evento','datetime-local',true],['fim','Fim do evento','datetime-local'],['local_evento','Local','text'],['status','Situação','select',true,['planejado','realizado','cancelado']]],preview:['titulo','inicio','fim','status'],order:'criado_em'},
+    presencas:{fields:[['evento_id','Evento','evento',true],['militar_id','Militar','militar',true],['situacao','Presença','select',true,['presente','ausente','justificado']],['observacao','Observação','textarea']],preview:['evento_id','militar_id','situacao','observacao'],order:'criado_em'},
+    comunicados:{fields:[['titulo','Título do comunicado','text',true],['conteudo','Texto do comunicado','textarea',true],['publicado','Publicado para visitantes','checkbox']],preview:['titulo','publicado','criado_em'],order:'criado_em'},
+    historico_patentes:{fields:[['militar_id','Militar','militar',true],['patente_anterior','Patente anterior','text'],['patente_nova','Nova patente','text',true],['observacao','Observação','textarea']],preview:['militar_id','patente_anterior','patente_nova','data_alteracao'],order:'data_alteracao'},
+    modulos_formacao:{fields:[['titulo','Título do módulo','text',true],['descricao','Descrição','textarea'],['ordem','Ordem','number'],['ativo','Ativo','checkbox']],preview:['titulo','ordem','ativo','criado_em'],order:'criado_em'},
+    materiais_estudo:{fields:[['modulo_id','Módulo','modulo'],['titulo','Título','text',true],['conteudo','Conteúdo','textarea'],['url_referencia','URL de referência','url'],['publicado','Publicado','checkbox']],preview:['titulo','modulo_id','publicado','criado_em'],order:'criado_em'},
+    avaliacoes:{fields:[['titulo','Título','text',true],['descricao','Descrição','textarea'],['tipo','Tipo','select',true,['formativa','confirmacao']],['ativo','Ativo','checkbox']],preview:['titulo','tipo','ativo','criado_em'],order:'criado_em'}
+  };
+  // A confirmação de formação e a distribuição dependem de autorização e critérios ainda não definidos pelo comando.
+  // Não são implementadas ações de escrita dessas tabelas nesta versão.
+  const mount = () => document.getElementById('sfm-admin');
+  const alert = () => state.error ? `<div class="sfm-status error" role="alert">${h(state.error)}</div>` : state.notice ? `<div class="sfm-status good" role="status">${h(state.notice)}</div>` : '';
+  function view() {
+    const root=mount(); if (!root) return;
+    if (!api) {root.innerHTML = '<div class="notice">Falha ao carregar a biblioteca de conexão. Verifique a conexão com a internet e recarregue a página.</div>'; return;}
+    if (!state.ready) {root.innerHTML='<div class="panel"><h2>Verificando acesso</h2><p>Consultando autenticação e permissões...</p></div>';return;}
+    if (!state.user) {
+      root.innerHTML=`<div class="panel"><h2>Entrar no painel administrativo</h2><p>Entre com uma das duas contas cadastradas no Supabase. Não use sua conta do GitHub.</p>${alert()}
+        <form id="sfm-login" class="sfm-form"><div class="sfm-field sfm-full"><label for="sfm-email">E-mail</label><input id="sfm-email" name="email" type="email" required autocomplete="username"></div><div class="sfm-field sfm-full"><label for="sfm-password">Senha</label><input id="sfm-password" name="password" type="password" required autocomplete="current-password"></div><div class="sfm-form-actions"><button type="submit" class="sfm-button" ${state.busy?'disabled':''}>Entrar</button></div></form>
+        <p class="sfm-hint">As credenciais são verificadas pelo Supabase Auth; elas não são incluídas no GitHub.</p></div>`;
+      return;
+    }
+    if (!state.profile) {
+      root.innerHTML=`<div class="panel"><h2>Conta sem permissão</h2><p>Você entrou, mas esta conta não tem um perfil administrativo ativo autorizado para o S.F.M.</p>${alert()}<button data-action="logout" class="sfm-button secondary">Sair</button></div>`; return;
+    }
+    const tabs=[['resumo','Visão geral'],...Object.keys(sections).map(k=>[k,labels[k]]),['auditoria_administrativa','Auditoria']];
+    root.innerHTML=`<div class="panel"><div class="section-head"><div><h2>PAINEL DO S.F.M.</h2><p class="sfm-small">${h(state.profile.nome)} · ${h(state.profile.funcao)} · ${h(state.user.email)}</p></div><button class="sfm-button secondary" data-action="logout">Sair da conta</button></div>
+      <div class="sfm-toolbar" role="tablist" aria-label="Módulos administrativos">${tabs.map(([k,n])=>`<button class="sfm-tab" role="tab" data-tab="${k}" aria-selected="${state.tab===k}">${h(n)}</button>`).join('')}</div>
+      ${alert()}<div id="sfm-workarea"></div></div>`;
+    detail();
+  }
+  function detail() {
+    const root=document.getElementById('sfm-workarea'); if(!root)return;
+    if (state.tab==='resumo') {
+      root.innerHTML=`<div class="grid"><article class="card"><span class="number">AUTENTICAÇÃO</span><h3>Conectado ao Supabase</h3><p>Seu perfil foi validado no banco de dados.</p></article><article class="card"><span class="number">DADOS RESTRITOS</span><h3>Gerenciamento administrativo</h3><p>Militares, acompanhamento, eventos, presenças, conteúdo e comunicados.</p></article><article class="card"><span class="number">AUDITORIA</span><h3>Histórico das alterações</h3><p>Consulte o registro de operações efetuadas no banco.</p></article></div><div class="notice">A prova de confirmação é destinada a militares que alcançarem a patente de Sargento. A aprovação final e a distribuição permanecem bloqueadas no painel até a validação das regras pelo comando. A conta do Comando, por ser compartilhada, não identifica individualmente cada operador.</div>`;
+      return;
+    }
+    root.innerHTML=`<div class="sfm-toolbar"><h3 style="margin:0">${h(labels[state.tab])}</h3><button class="sfm-button secondary" data-action="refresh">Atualizar dados</button>${state.tab!=='auditoria_administrativa'?'<button class="sfm-button" data-action="new">Novo registro</button>':''}</div><p class="sfm-hint">Até 100 registros mais recentes são exibidos. Informações privadas não são mostradas na área pública.</p><div id="sfm-list"><p>Carregando...</p></div><div id="sfm-editor"></div>`;
+    load();
+  }
+  const short = v => {
+    if (v === null || v === undefined || v === '') return '—';
+    if (typeof v === 'boolean') return v?'Sim':'Não';
+    if (typeof v === 'object') return JSON.stringify(v).slice(0,100);
+    if (String(v).includes('T') && /^\d{4}-\d\d-\d\dT/.test(v)) return fmt(v);
+    const look=state.lookups;
+    if (look[String(v)]) return look[String(v)];
+    return String(v).length>115?String(v).slice(0,115)+'…':String(v);
+  };
+  async function loadLookups() {
+    if(!api||!state.profile)return;
+    const specs=[['militares','nome'],['eventos','titulo'],['modulos_formacao','titulo']];
+    for(const [table,col] of specs){
+      const {data,error}=await api.from(table).select('id,'+col).limit(500);
+      if(!error) (data||[]).forEach(row=>{state.lookups[row.id]=row[col]||row.id;});
+    }
+  }
+  async function load() {
+    const table=state.tab; const container=document.getElementById('sfm-list');if(!container)return;
+    state.error='';
+    if(!api)return;
+    try{
+      await loadLookups();
+      const order=table==='auditoria_administrativa'?'ocorrido_em':sections[table].order;
+      const {data,error}=await api.from(table).select('*').order(order,{ascending:false}).limit(100);
+      if(error)throw error;
+      if(state.tab!==table)return;
+      state.rows=data||[];
+      const fields=table==='auditoria_administrativa'?['ocorrido_em','tabela','operacao','registro_id','conta_id']:sections[table].preview;
+      container.innerHTML=!state.rows.length?'<p class="notice">Nenhum registro encontrado.</p>':`<div class="sfm-scroll"><table><thead><tr>${fields.map(f=>`<th>${h(f.replaceAll('_',' '))}</th>`).join('')}${table==='auditoria_administrativa'?'':'<th>Ações</th>'}</tr></thead><tbody>${state.rows.map(r=>`<tr>${fields.map(f=>`<td>${h(short(r[f]))}</td>`).join('')}${table==='auditoria_administrativa'?'':`<td><div class="sfm-toolbar"><button data-action="edit" data-id="${h(r.id)}" class="sfm-button secondary">Editar</button><button data-action="delete" data-id="${h(r.id)}" class="sfm-button danger">Excluir</button></div></td>`}</tr>`).join('')}</tbody></table></div>`;
+    } catch(e){container.innerHTML=`<p class="sfm-status error">Não foi possível consultar ${h(labels[table])}: ${h(e.message||e)}</p>`;}
+  }
+  function inputFor(field,row){
+    const [name,label,type,required,choices]=field, val=row?.[name];
+    const attrs=`id="sfm-field-${name}" name="${name}" ${required?'required':''}`;
+    const fieldLabel=`<label for="sfm-field-${name}">${h(label)}${required?' *':''}</label>`;
+    let element='';
+    if(type==='checkbox') element=`<input ${attrs} type="checkbox" ${val?'checked':''} style="width:auto">`;
+    else if(type==='textarea') element=`<textarea ${attrs}>${h(val??'')}</textarea>`;
+    else if(type==='select') element=`<select ${attrs}>${(choices||[]).map(x=>`<option value="${h(x)}" ${x===val?'selected':''}>${h(x.replaceAll('_',' '))}</option>`).join('')}</select>`;
+    else if(['militar','evento','modulo'].includes(type)) {
+      const prefix=type==='militar'?'militares':type==='evento'?'eventos':'modulos_formacao';
+      const options=Object.entries(state.lookups).filter(([id])=>state.lookupTypes?.[id]===prefix);
+      element=`<select ${attrs}><option value="">Selecione</option>${options.map(([id,title])=>`<option value="${h(id)}" ${id===val?'selected':''}>${h(title)}</option>`).join('')}</select>`;
+    } else {
+      let adjusted=val??'';
+      if(type==='datetime-local'&&val) { const dt=new Date(val); adjusted=new Date(dt.getTime()-dt.getTimezoneOffset()*60000).toISOString().slice(0,16); }
+      element=`<input ${attrs} type="${h(type)}" value="${h(adjusted)}" ${type==='number'?'step="1"':''}>`;
+    }
+    return `<div class="sfm-field ${type==='textarea'?'sfm-full':''}">${fieldLabel}${element}</div>`;
+  }
+  async function editor(id){
+    state.editing=id||null;
+    const row=id?state.rows.find(r=>r.id===id):null;
+    if(id&&!row)return;
+    await buildLookupTypes();
+    const box=document.getElementById('sfm-editor');if(!box)return;
+    box.innerHTML=`<div class="panel"><h3>${id?'Editar registro':'Novo registro'} · ${h(labels[state.tab])}</h3><form id="sfm-record-form" class="sfm-form">${sections[state.tab].fields.map(f=>inputFor(f,row)).join('')}<div class="sfm-form-actions"><button class="sfm-button" type="submit">Salvar no Supabase</button><button class="sfm-button secondary" type="button" data-action="cancel">Cancelar</button></div></form></div>`;
+    box.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  async function buildLookupTypes(){
+    if(state.lookupTypes)return;
+    state.lookupTypes={};
+    for(const [tbl,col] of [['militares','nome'],['eventos','titulo'],['modulos_formacao','titulo']]){
+      const {data}=await api.from(tbl).select('id,'+col).limit(500);
+      (data||[]).forEach(r=>{state.lookupTypes[r.id]=tbl;state.lookups[r.id]=r[col]||r.id;});
+    }
+  }
+  function formObject(form){
+    const result={};const def=sections[state.tab];
+    for(const [name,label,type,required] of def.fields){
+      const el=form.elements.namedItem(name); if(!el)continue;
+      let val=type==='checkbox'?el.checked:el.value.trim();
+      if(type==='number') val=val===''?null:Number(val);
+      else if(type==='datetime-local') val=val?new Date(val).toISOString():null;
+      else if(type!=='checkbox'&&val==='') val=null;
+      if(required&&(val===null||val===''))throw Error(`Preencha o campo ${label}.`);
+      result[name]=val;
+    }
+    if(state.tab==='materiais_estudo'&&!result.conteudo&&!result.url_referencia)throw Error('Informe conteúdo ou URL de referência.');
+    // Atualizar data pública de publicação no registro do comunicado.
+    if(state.tab==='comunicados') result.publicado_em=result.publicado?new Date().toISOString():null;
+    return result;
+  }
+  async function save(form){
+    if(state.busy)return;
+    state.busy=true;
+    try{
+      const values=formObject(form); const table=state.tab;
+      let q=state.editing?api.from(table).update(values).eq('id',state.editing):api.from(table).insert(values);
+      const {error}=await q; if(error)throw error;
+      state.notice='Registro salvo no banco de dados.';state.error='';state.editing=null;
+      view();
+    } catch(e){ state.error='Não foi possível salvar: '+(e.message||e);state.notice='';const box=document.getElementById('sfm-editor');if(box){let x=box.querySelector('[role=alert]');if(!x){x=document.createElement('div');x.setAttribute('role','alert');x.className='sfm-status error';box.prepend(x);}x.textContent=state.error;} }
+    finally{state.busy=false;}
+  }
+  async function remove(id){
+    if(!confirm('Deseja realmente excluir este registro? O banco poderá impedir a exclusão se houver informações relacionadas.'))return;
+    const {error}=await api.from(state.tab).delete().eq('id',id);
+    if(error){state.error='Não foi possível excluir: '+error.message;state.notice='';}else{state.notice='Registro excluído.';state.error='';}
+    view();
+  }
+  async function refreshAccount(){
+    state.ready=false;view();
+    try{
+      const {data:{user},error}=await api.auth.getUser();if(error)throw error;
+      state.user=user||null;state.profile=null;
+      if(user){
+        const {data,error:profileError}=await api.from('perfis').select('nome,funcao,ativo').eq('id',user.id).maybeSingle();
+        if(profileError)throw profileError;
+        if(data && data.ativo && ['administrador','comando_sfm'].includes(data.funcao)) state.profile=data;
+      }
+    }catch(e){state.error='Erro na autenticação: '+(e.message||e);state.user=null;state.profile=null;}
+    finally{state.ready=true;view();}
+  }
+  document.addEventListener('submit',async e=>{
+    if(e.target.id==='sfm-login'){
+      e.preventDefault();if(state.busy)return;
+      const fd=new FormData(e.target);state.busy=true;state.error='';
+      const {error}=await api.auth.signInWithPassword({email:String(fd.get('email')),password:String(fd.get('password'))});
+      state.busy=false;
+      if(error){state.error='Não foi possível entrar: '+error.message;view();}else{await refreshAccount();}
+    }
+    if(e.target.id==='sfm-record-form'){e.preventDefault();await save(e.target);}
+  });
+  document.addEventListener('click',async e=>{
+    const tab=e.target.closest('#sfm-admin [data-tab]');
+    if(tab){state.tab=tab.dataset.tab;state.error='';state.notice='';state.editing=null;view();return;}
+    const b=e.target.closest('#sfm-admin [data-action]');if(!b)return;
+    const action=b.dataset.action;
+    if(action==='logout'){await api.auth.signOut();state.user=null;state.profile=null;state.tab='resumo';state.notice='';state.error='';view();}
+    if(action==='refresh'){state.notice='';state.error='';load();}
+    if(action==='new')editor(null);
+    if(action==='edit')editor(b.dataset.id);
+    if(action==='cancel'){const x=document.getElementById('sfm-editor');if(x)x.innerHTML='';state.editing=null;}
+    if(action==='delete')remove(b.dataset.id);
+  });
+  // Conteúdo público: somente registros que passaram pelas políticas de publicação do Supabase.
+  async function publicFeed(page){
+    const container=document.getElementById(page==='comunicados'?'sfm-public-notices':'sfm-public-materials');
+    if(!container || !api)return;
+    const target=page==='comunicados'?'comunicados':'materiais_estudo';
+    const columns=page==='comunicados'?'titulo,conteudo,publicado_em':'titulo,conteudo,url_referencia';
+    const {data,error}=await api.from(target).select(columns).eq('publicado',true).limit(30);
+    if(!container.isConnected)return;
+    if(error){container.innerHTML='<p class="sfm-hint">As publicações ainda não estão disponíveis. É necessário habilitar a política de leitura pública no Supabase.</p>';return;}
+    if(!data?.length){container.innerHTML='<p class="sfm-hint">Nenhuma publicação disponível até o momento.</p>';return;}
+    container.innerHTML='<div class="grid two">'+data.map(item=>`<article class="card"><h3>${h(item.titulo)}</h3>${item.conteudo?`<p style="white-space:pre-wrap">${h(item.conteudo)}</p>`:''}${item.url_referencia&&/^https:\/\//i.test(item.url_referencia)?`<a href="${h(item.url_referencia)}" target="_blank" rel="noopener noreferrer">Abrir referência ↗</a>`:''}${item.publicado_em?`<p class="sfm-small">Publicado em ${h(fmt(item.publicado_em))}</p>`:''}</article>`).join('')+'</div>';
+  }
+  window.sfmAfterRender = page => {
+    if(page==='administracao')view();
+    if(page==='comunicados'||page==='materiais')publicFeed(page);
+  };
+  if(api){
+    api.auth.onAuthStateChange((event)=>{
+      // Evitar chamadas ao Supabase dentro do callback de auth; agendar fora do callback.
+      if(event==='SIGNED_IN'||event==='SIGNED_OUT'||event==='TOKEN_REFRESHED') setTimeout(refreshAccount,0);
+    });
+    refreshAccount();
+  } else {state.ready=true;view();}
+  const firstPage=decodeURIComponent(location.hash.replace(/^#/,'')||'inicio');
+  if(firstPage==='comunicados'||firstPage==='materiais')publicFeed(firstPage);
+})();
+
 </script>
 </body>
 </html>
